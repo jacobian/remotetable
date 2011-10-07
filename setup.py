@@ -24,6 +24,6 @@ setup(
         'Programming Language :: Python',
     ],
     install_requires = ["requests", "unipath"],
-    tests_require = ["nose", "mock"],
+    tests_require = ["nose", "mock", "unittest2"],
     test_suite = "nose.collector",
 )
