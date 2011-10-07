@@ -22,7 +22,7 @@ class Parser(object):
         data = flatten(worksheet.rows)
         data = data[self.options.get('skip', 0):]
 
-        headers = self.options.get('headers')
+        headers = self.options.get('headers', True)
         if headers is True:
             headers, data = data[0], data[1:]
         if headers:

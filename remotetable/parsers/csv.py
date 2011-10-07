@@ -13,7 +13,7 @@ class Parser(object):
             self.stream.next()
 
         reader = csv.reader(self.stream)
-        headers = self.options.get('headers', None)
+        headers = self.options.get('headers', True)
         if headers is True:
             headers = reader.next()
         if headers:
