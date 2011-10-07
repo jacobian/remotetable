@@ -90,3 +90,6 @@ class RemoteTableTests(unittest2.TestCase):
             "Can't find or load a parser named 'flahflarg': No module named flahflarg"
         )
 
+    def test_xls(self):
+        t = remotetable.open('http://cloud.github.com/downloads/seamusabshere/remote_table/remote_table_row_hash_test.alternate_order.xls')
+        self.assertEqual(t[0]['header2'], 'value2')

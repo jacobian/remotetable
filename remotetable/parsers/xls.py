@@ -1,6 +1,4 @@
-from cStringIO import StringIO
-from openpyxl.worksheet import flatten
-from openpyxl.reader.excel import load_workbook
+import xlrd
 
 class Parser(object):
 
@@ -9,17 +7,15 @@ class Parser(object):
         self.options = options
 
     def read(self):
-        # Unfortunate memory-hogging hack to work around zipfile not being
-        # able to open urllib streams directly.
-        stream = StringIO(self.stream.read())
-        workbook = load_workbook(stream)
+        # Gross: xlrd can't read streams.
+        workbook = xlrd.open_workbook(file_contents=self.stream.read())
 
         if 'sheet' in self.options:
-            worksheet = workbook.get_sheet_by_name(self.options['sheet'])
+            worksheet = workbook.sheet_by_name(self.options['sheet'])
         else:
-            worksheet = workbook.worksheets[0]
+            worksheet = workbook.sheet_by_index(0)
 
-        data = flatten(worksheet.rows)
+        data = [worksheet.row_values(i) for i in range(worksheet.nrows)]
         data = data[self.options.get('skip', 0):]
 
         headers = self.options.get('headers', True)
