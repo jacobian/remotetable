@@ -55,3 +55,11 @@ def test_xml_xpath():
         headers = False
     )
     assert_equal(t[0][1], "Jefferson County International")
+
+def test_xml_css():
+    t = remotetable.open('http://data.brighterplanet.com/airports.xml',
+        row_css = 'row',
+        column_css = 'field',
+        headers = False
+    )
+    assert_equal(t[0][1], "Jefferson County International")
