@@ -64,3 +64,29 @@ class RemoteTableTests(unittest2.TestCase):
             headers = False
         )
         self.assertEqual(t[0][1], "Jefferson County International")
+
+    # This short URL for the next couple tests points to the Lawrence PD crime
+    # remote from the test_html_* methods above.
+
+    def test_failed_parser_guessing(self):
+        with self.assertRaises(ValueError) as cm:
+            remotetable.open('http://bit.ly/qhMkBl')
+        self.assertEqual(str(cm.exception), "Can't guess a parser for URL 'http://bit.ly/qhMkBl'")
+
+    def test_named_parser(self):
+        t = remotetable.open('http://bit.ly/qhMkBl',
+            parser = 'html',
+            row_css = 'table table tr',
+            column_css = 'td, th',
+            select = lambda row: bool(row['UCR Classification'])
+        )
+        self.assertEqual(t[0]['UCR Classification'], '100 - Kidnapping / Abduction')
+
+    def test_invalid_named_parser(self):
+        with self.assertRaises(ValueError) as cm:
+            remotetable.open('http://bit.ly/qhMkBl', parser='flahflarg')
+        self.assertEqual(
+            str(cm.exception),
+            "Can't find or load a parser named 'flahflarg': No module named flahflarg"
+        )
+
