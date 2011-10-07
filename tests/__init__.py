@@ -15,3 +15,9 @@ def test_open_xslx():
 def test_google_doc():
     t = remotetable.open('http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw')
     assert_equal(t[5]['name'], "Ian Hough")
+
+def test_csv_custom_headers():
+    t = remotetable.open('http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw',
+                         headers=['col1', 'col2', 'col3'])
+    assert_equal(t[0]['col2'], 'name')
+    assert_equal(t[1]['col2'], 'Seamus Abshere')
