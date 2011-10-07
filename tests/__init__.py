@@ -21,3 +21,10 @@ def test_csv_custom_headers():
                          headers=['col1', 'col2', 'col3'])
     assert_equal(t[0]['col2'], 'name')
     assert_equal(t[1]['col2'], 'Seamus Abshere')
+
+def test_select_callback():
+    t = remotetable.open(
+        url = 'http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw',
+        select = lambda row: row["name"] == "Seamus Abshere"
+    )
+    assert all(row["name"] == "Seamus Abshere" for row in t)
