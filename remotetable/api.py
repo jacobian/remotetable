@@ -26,7 +26,8 @@ def open(url, **kwargs):
     # FIXME: request params.
     # FIXME: response._resp is the only way to get a file-like obj!?
     # FIXME: option to use iterators
-    response = requests.get(url)
+    with requests.settings(accept_gzip=False):
+        response = requests.get(url)
     results = parser(response._resp, **kwargs).read()
 
     select_func = kwargs.get('select', None)

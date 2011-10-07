@@ -12,6 +12,8 @@ def guess_parser(url):
         return get_parser('csv')
     elif ext in ("xlsx", "excelx"):
         return get_parser('xlsx')
+    elif ext in ('htm', 'html'):
+        return get_parser('html')
     else:
         raise ValueError("Can't guess a parser for URL %r" % url)
 

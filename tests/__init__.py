@@ -28,3 +28,21 @@ def test_select_callback():
         select = lambda row: row["name"] == "Seamus Abshere"
     )
     assert all(row["name"] == "Seamus Abshere" for row in t)
+
+def test_html_xpath():
+    t = remotetable.open(
+        url = 'http://police.lawrenceks.org/sites/default/files/files/stats/2011UCR.htm',
+        row_xpath = '//table//table/tr',
+        column_xpath = 'td|th',
+        select = lambda row: bool(row['UCR Classification'])
+    )
+    assert_equal(t[0]['UCR Classification'], '100 - Kidnapping / Abduction')
+
+def test_html_css():
+    t = remotetable.open(
+        url = 'http://police.lawrenceks.org/sites/default/files/files/stats/2011UCR.htm',
+        row_css = 'table table tr',
+        column_css = 'td, th',
+        select = lambda row: bool(row['UCR Classification'])
+    )
+    assert_equal(t[0]['UCR Classification'], '100 - Kidnapping / Abduction')
