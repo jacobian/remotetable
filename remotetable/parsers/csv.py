@@ -8,7 +8,7 @@ class Parser(object):
         self.stream = iter(stream)
         self.options = options
 
-    def __iter__(self):
+    def read(self):
         for i in range(self.options.get('skip', 0)):
             self.stream.next()
 
@@ -16,6 +16,7 @@ class Parser(object):
         headers = self.options.get('headers', None)
         if headers is True:
             headers = reader.next()
+        if headers:
             reader = csv.DictReader(self.stream, fieldnames=headers)
 
-        return reader
+        return list(reader)

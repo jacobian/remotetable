@@ -10,6 +10,8 @@ def guess_parser(url):
     ext = os.path.splitext(path)[1].lstrip('.')
     if ext == 'csv':
         return get_parser('csv')
+    elif ext in ("xlsx", "excelx"):
+        return get_parser('xlsx')
     else:
         raise ValueError("Can't guess a parser for URL %r" % url)
 

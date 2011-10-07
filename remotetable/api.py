@@ -21,4 +21,4 @@ def open(url, **kwargs):
     # FIXME: response._resp is the only way to get a file-like obj!?
     # FIXME: option to use iterators
     response = requests.get(url)
-    return list(parser(response._resp, **kwargs))
+    return parser(response._resp, **kwargs).read()
