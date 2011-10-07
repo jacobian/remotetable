@@ -14,6 +14,8 @@ def guess_parser(url):
         return get_parser('xlsx')
     elif ext in ('htm', 'html'):
         return get_parser('html')
+    elif ext == 'xml':
+        return get_parser('xml')
     else:
         raise ValueError("Can't guess a parser for URL %r" % url)
 

@@ -46,3 +46,12 @@ def test_html_css():
         select = lambda row: bool(row['UCR Classification'])
     )
     assert_equal(t[0]['UCR Classification'], '100 - Kidnapping / Abduction')
+
+def test_xml_xpath():
+    # FIXME: it would be *great* if we could translate field@name into a dicts.
+    t = remotetable.open('http://data.brighterplanet.com/airports.xml',
+        row_xpath = '//row',
+        column_xpath = 'field',
+        headers = False
+    )
+    assert_equal(t[0][1], "Jefferson County International")
