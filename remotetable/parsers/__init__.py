@@ -6,9 +6,9 @@ def guess_parser(url):
     """
     Guess a parser based on the URL.
     """
-    path = urlparse.urlparse(url).path
-    ext = os.path.splitext(path)[1].lstrip('.')
-    if ext == 'csv':
+    parsed = urlparse.urlparse(url)
+    ext = os.path.splitext(parsed.path)[1].lstrip('.')
+    if ext == 'csv' or parsed.netloc == 'spreadsheets.google.com':
         return get_parser('csv')
     elif ext in ("xlsx", "excelx"):
         return get_parser('xlsx')

@@ -11,3 +11,7 @@ def test_open_xslx():
         t[2]["Requirements"],
         "Web Deployment"
     )
+
+def test_google_doc():
+    t = remotetable.open('http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw')
+    assert_equal(t[5]['name'], "Ian Hough")
