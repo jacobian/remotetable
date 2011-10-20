@@ -23,7 +23,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
     ],
-    install_requires = ["requests", "unipath"],
+    install_requires = ["requests >= 0.6.6, < 0.7", "unipath"],
     tests_require = ["nose", "mock", "unittest2"],
     test_suite = "nose.collector",
 )
