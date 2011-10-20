@@ -6,6 +6,11 @@ import urlparse
 import urllib
 import inspect
 import itertools
+import zipfile
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 from . import parsers
 
 def open(url, **kwargs):
@@ -20,7 +25,10 @@ def open(url, **kwargs):
     if callable(parser):
         pass
     elif parser is None:
-        parser = parsers.guess_parser(url)
+        if 'filename' in kwargs:
+            parser = parsers.guess_parser(kwargs['filename'])
+        else:
+            parser = parsers.guess_parser(url)
     else:
         parser = parsers.get_parser(parser)
 
@@ -51,7 +59,17 @@ def open(url, **kwargs):
     # Grab the data.
     with requests.settings(accept_gzip=False):
         response = requests.request(**request_kwargs)
-    results = parser(response.raw, **kwargs).read()
+
+    # If we got a `filename` argument then assume this is a zipfile.
+    # XXX: would be nice to support gzip, etc.
+    if 'filename' in kwargs:
+        zf = zipfile.ZipFile(StringIO(response.content))
+        stream = zf.open(kwargs.pop('filename'))
+    else:
+        stream = response.raw
+
+    # Now parse the stream.
+    results = parser(stream, **kwargs).read()
 
     # Process select/omit.
     if select_func:

@@ -93,3 +93,11 @@ class RemoteTableTests(unittest2.TestCase):
     def test_xls(self):
         t = remotetable.open('http://cloud.github.com/downloads/seamusabshere/remote_table/remote_table_row_hash_test.alternate_order.xls')
         self.assertEqual(t[0]['header2'], 'value2')
+
+    def test_open_csv_inside_zipfile(self):
+        t = remotetable.open('http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
+            filename = 'Annex Tables/Annex 3/Table A-93.csv',
+            skip = 1,
+            select = lambda row: row['Vehicle Age'].strip().isdigit()
+        )
+        self.assertEqual(t[0]['LDGV'], '9.09%')
