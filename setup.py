@@ -1,8 +1,13 @@
 import os
+import sys
 from setuptools import setup, find_packages
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+requirements = ["requests >= 0.6.6, < 0.7", "unipath"]
+if sys.version_info < (2, 7):
+    requirements.append('importlib')
 
 setup(
     name = "remotetable",
@@ -23,7 +28,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
     ],
-    install_requires = ["requests >= 0.6.6, < 0.7", "unipath"],
+    install_requires = requirements,
     tests_require = ["nose", "mock", "unittest2"],
     test_suite = "nose.collector",
 )
